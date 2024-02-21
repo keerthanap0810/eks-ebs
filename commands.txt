@@ -1,0 +1,17 @@
+# Generate and write kubeconfig file for Amazon EKS cluster
+eksctl utils write-kubeconfig --cluster=<cluster_name> --region=<region>
+
+# Scale Kubernetes deployment to specified number of replicas
+kubectl scale deployment <deployment_name> --replicas=<number>
+
+# Force delete specified pod without waiting for graceful termination
+kubectl delete pod <pod_name> --grace-period=0 --force
+
+# Remove finalizers from PersistentVolume, allowing deletion even if associated with a PersistentVolumeClaim
+kubectl patch pv <pv_name> -p '{"metadata":{"finalizers":null}}'
+
+# Execute 'tail' command interactively inside specified pod to stream contents of a file
+kubectl exec -ti <pod_name> -- tail -f /data/out15.txt
+
+# Remove claim reference from PersistentVolume, making it available for other claims
+kubectl patch pv <pv_name> -p '{"spec":{"claimRef": null}}'
