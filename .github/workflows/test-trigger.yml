@@ -1,0 +1,27 @@
+name: Test Release Branch Trigger and Tagging
+
+# This pipeline triggers on a push to any branch named 'release_*'
+on:
+  push:
+    branches:
+      - 'release_*'
+
+jobs:
+  test-trigger-and-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Display Git Info and Potential Tags
+        run: |
+          echo "✅ Workflow triggered correctly for branch: ${{ github.ref_name }}"
+          echo "--------------------------------------------------"
+
+          # Replicating the logic to generate our image tags
+          BRANCH_TAG=$(echo ${{ github.ref_name }})
+          COMMIT_HASH_TAG=$(git rev-parse --short HEAD)
+
+          echo "This test is successful if the tags below look correct:"
+          echo "🏷️ Human-Readable Tag would be: $BRANCH_TAG"
+          echo "🔒 Immutable Commit Hash Tag would be: $COMMIT_HASH_TAG"
