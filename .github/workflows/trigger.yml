@@ -1,0 +1,32 @@
+name: 'Deploy to Environment'
+
+on:
+  push:
+    branches:
+      - 'test'
+      - 'nonprod'
+      - 'prod'
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: your-username/your-app-name
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Add environment definitions if you use GitHub Environments
+    # environment: ${{ github.ref_name }}
+
+    steps:
+      - name: 'Checkout Code'
+        uses: actions/checkout@v4
+
+      - name: 'Generate Image Tag to Pull'
+        id: generate_tag
+        run: echo "tag=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
+
+      - name: 'Print the tag we are deploying'
+        run: |
+          echo "Deploying branch: ${{ github.ref_name }}"
+          echo "Image to pull: ${{ steps.generate_tag.outputs.tag }}"
+
