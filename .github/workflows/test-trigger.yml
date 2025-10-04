@@ -22,7 +22,7 @@ jobs:
           # Replicating the logic to generate our image tags
           BRANCH_TAG=$(echo ${{ github.ref_name }})
           COMMIT_HASH_TAG=$(git rev-parse --short HEAD)
-
+          echo "For me be: $(echo ${GITHUB_SHA} | cut -c1-8)"
           echo "This test is successful if the tags below look correct:"
           echo "🏷️ Human-Readable Tag would be: $BRANCH_TAG"
           echo "🔒 Immutable Commit Hash Tag would be: $COMMIT_HASH_TAG"
