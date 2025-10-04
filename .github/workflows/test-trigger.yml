@@ -17,6 +17,7 @@ jobs:
         run: |
           echo "✅ Workflow triggered correctly for branch: ${{ github.ref_name }}"
           echo "--------------------------------------------------"
+          echo "tag=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
 
           # Replicating the logic to generate our image tags
           BRANCH_TAG=$(echo ${{ github.ref_name }})
