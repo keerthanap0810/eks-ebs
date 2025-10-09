@@ -26,3 +26,4 @@ jobs:
           echo "This test is successful if the tags below look correct:"
           echo "🏷️ Human-Readable Tag would be: $BRANCH_TAG"
           echo "🔒 Immutable Commit Hash Tag would be: $COMMIT_HASH_TAG"
+          echo $$COMMIT_HASH_TAG > release_config.txt
