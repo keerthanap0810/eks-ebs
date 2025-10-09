@@ -1,0 +1,48 @@
+name: 'Build and Promote Release'
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ github.ref_name }} # Pass the tag to other jobs
+    steps:
+      # ... steps to build and push the Docker image tagged with github.ref_name ...
+      - name: Build and Push to ECR
+        run: |
+          echo "Building and pushing image with tag ${{ github.ref_name }}"
+          # Your docker build/push commands here
+
+  deploy-test:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: test # Associates this job with the 'test' environment
+    steps:
+      - name: Deploy to Test EKS
+        run: |
+          echo "Deploying tag ${{ needs.build.outputs.image_tag }} to Test"
+          # Your helm or kubectl commands here
+
+  deploy-nonprod:
+    needs: deploy-test # This job only starts after deploy-test succeeds
+    runs-on: ubuntu-latest
+    environment: nonprod # Requires approval if configured
+    steps:
+      - name: Deploy to Non-Prod EKS
+        run: |
+          echo "Deploying tag ${{ needs.build.outputs.image_tag }} to Non-Prod"
+          # Your helm or kubectl commands here
+
+  deploy-production:
+    needs: deploy-nonprod # This job only starts after deploy-nonprod succeeds
+    runs-on: ubuntu-latest
+    environment: production # Requires approval if configured
+    steps:
+      - name: Deploy to Production EKS
+        run: |
+          echo "Deploying tag ${{ needs.build.outputs.image_tag }} to Production"
+          # Your helm or kubectl commands here
