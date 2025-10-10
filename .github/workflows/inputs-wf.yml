@@ -1,0 +1,21 @@
+name: 'Another Service Deploy'
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The release tag to deploy'
+        required: true
+      stack_name:
+        description: 'The environment to deploy to'
+        required: true
+
+jobs:
+  echo-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print the received inputs
+        run: |
+          echo "🚀 I am the 'another-service-deploy' workflow."
+          echo "I was triggered to deploy version: ${{ github.event.inputs.version }}"
+          echo "The target environment is: ${{ github.event.inputs.stack_name }}"

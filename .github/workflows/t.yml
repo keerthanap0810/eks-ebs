@@ -20,12 +20,18 @@ jobs:
   deploy-test:
     needs: build
     runs-on: ubuntu-latest
-    environment: test # Associates this job with the 'test' environment
+    environment: test
     steps:
-      - name: Deploy to Test EKS
-        run: |
-          echo "Deploying tag ${{ needs.build.outputs.image_tag }} to Test"
-          # Your helm or kubectl commands here
+      - name: Trigger Test Deployment Workflow 🚀
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          # The filename of the workflow you want to trigger
+          workflow: 'inputs-wf.yml'
+          # Use the PAT you created
+          token: ${{ secrets.ACTION_PAT }}
+          # Pass the inputs required by that workflow
+          inputs: '{ "version": "${{ needs.build.outputs.image_tag }}", "stack_name": "test" }'
+
 
   deploy-nonprod:
     needs: deploy-test # This job only starts after deploy-test succeeds
