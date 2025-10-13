@@ -1,5 +1,8 @@
 name: 'Build and Promote Release'
 
+run-name: "🚀 Release ${{ github.ref_name }} triggered by @${{ github.actor }}"
+
+
 on:
   push:
     branches:
