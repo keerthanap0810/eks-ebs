@@ -1,0 +1,16 @@
+name: 'Triggered when Tag is created'
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build_images:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ github.ref_name }}
+    steps:
+      - name: Build and Push to ECR
+        run: |
+          echo "We will Build and Push image with tag ${{ github.ref_name }} "

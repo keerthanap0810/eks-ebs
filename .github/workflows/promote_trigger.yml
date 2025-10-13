@@ -1,0 +1,35 @@
+name: 'Build and Promote Release'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  deploy-test:
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - name: Deploy to TEST EKS
+        run: |
+          echo "Helm update on TEST"
+
+
+  deploy-nonprod:
+    needs: deploy-test # This job only starts after deploy-test succeeds
+    runs-on: ubuntu-latest
+    environment: nonprod # Requires approval if configured
+    steps:
+      - name: Deploy to NONPROD EKS
+        run: |
+          echo "Helm update on NONPROD"
+
+  deploy-production:
+    needs: deploy-nonprod # This job only starts after deploy-nonprod succeeds
+    runs-on: ubuntu-latest
+    environment: production # Requires approval if configured
+    steps:
+      - name: Deploy to PROD EKS
+        run: |
+          echo "Helm update on PROD"
