@@ -1,5 +1,7 @@
 name: 'Triggered when Tag is created'
 
+run-name: "🚀 Release ${{ github.ref_name }} triggered by @${{ github.actor }}"
+
 on:
   push:
     tags:
