@@ -16,4 +16,4 @@ kubectl exec -ti <pod_name> -- tail -f /data/out15.txt
 # Remove claim reference from PersistentVolume, making it available for other claims
 kubectl patch pv <pv_name> -p '{"spec":{"claimRef": null}}'
 
-change the text
+change the text for testing
