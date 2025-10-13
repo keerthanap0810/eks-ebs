@@ -18,3 +18,4 @@ kubectl patch pv <pv_name> -p '{"spec":{"claimRef": null}}'
 
 // feature 1 added
 // feature 1-bug fix added
+// feature 2 added
