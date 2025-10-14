@@ -1,4 +1,4 @@
-name: 'Triggered when Tag is created'
+name: 'Triggered when based on Path'
 
 run-name: "🚀 Release ${{ github.ref_name }} triggered by @${{ github.actor }}"
 
@@ -7,7 +7,7 @@ on:
     branches:
       - main # Or whichever branch you want to monitor
     paths:
-      - 'eks-ebs/states/hyderabad/core_customer_1/test/**'
+      - 'states/hyderabad/core_customer_1/test/**'
 
 jobs:
   deploy_code:
@@ -15,6 +15,7 @@ jobs:
     outputs:
       image_tag: ${{ github.ref_name }}
     steps:
+
       - name: deploy code for test
         run: |
           echo "We will deploy code ${{ github.ref_name }} "
